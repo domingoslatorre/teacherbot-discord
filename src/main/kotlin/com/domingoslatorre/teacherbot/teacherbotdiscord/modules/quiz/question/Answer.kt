@@ -2,7 +2,7 @@ package com.domingoslatorre.teacherbot.teacherbotdiscord.modules.quiz.question
 
 sealed interface Answer {
     val value: Any
-    val feedback: String?
     val correct: Boolean
+    val feedback: String?
     fun isCorrectAnswer(answer: String): Boolean
 }
