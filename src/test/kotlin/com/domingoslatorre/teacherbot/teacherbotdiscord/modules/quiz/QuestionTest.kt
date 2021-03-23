@@ -1,5 +1,7 @@
 package com.domingoslatorre.teacherbot.teacherbotdiscord.modules.quiz
 
+import com.domingoslatorre.teacherbot.teacherbotdiscord.modules.quiz.question.ChoiceAnswer
+import com.domingoslatorre.teacherbot.teacherbotdiscord.modules.quiz.question.MultipleChoiceQuestion
 import com.domingoslatorre.teacherbot.teacherbotdiscord.modules.quiz.question.ShortAnswer
 import com.domingoslatorre.teacherbot.teacherbotdiscord.modules.quiz.question.ShortQuestion
 import com.domingoslatorre.teacherbot.teacherbotdiscord.modules.quiz.question.TrueFalseAnswer
@@ -149,4 +151,74 @@ class QuestionTest : StringSpec({
         question1.isCorrectAnswer("0").shouldBeTrue()
 
     }
+
+    "Create a multiple choice question" {
+        val question1 = MultipleChoiceQuestion(
+            text = "One plus one equals to?",
+            answers = listOf(
+                ChoiceAnswer("1", false),
+                ChoiceAnswer("3", false),
+                ChoiceAnswer("2", true),
+                ChoiceAnswer("5", false),
+                ChoiceAnswer("0", false)
+            )
+        )
+        question1.text shouldBe "One plus one equals to?"
+        question1.answers shouldHaveSize 5
+    }
+
+    "Check if a answer for a multiple choice question is valid" {
+        val question1 = MultipleChoiceQuestion(
+            text = "Which city in Brazil is known as the Marvelous City?",
+            answers = listOf(
+                ChoiceAnswer("São Paulo", false),
+                ChoiceAnswer("Curitiba", false),
+                ChoiceAnswer("Rio de Janeiro", true),
+                ChoiceAnswer("Santos", false),
+                ChoiceAnswer("Guarulhos", false)
+            )
+        )
+
+        question1.validAnswer("1").shouldBeTrue()
+        question1.validAnswer("2").shouldBeTrue()
+        question1.validAnswer("3").shouldBeTrue()
+        question1.validAnswer("4").shouldBeTrue()
+        question1.validAnswer("5").shouldBeTrue()
+        question1.validAnswer(" 3").shouldBeTrue()
+        question1.validAnswer("3 ").shouldBeTrue()
+        question1.validAnswer(" 3 ").shouldBeTrue()
+
+        question1.validAnswer("6").shouldBeFalse()
+        question1.validAnswer("6 ").shouldBeFalse()
+        question1.validAnswer("20").shouldBeFalse()
+        question1.validAnswer("0").shouldBeFalse()
+        question1.validAnswer("-1").shouldBeFalse()
+        question1.validAnswer("-100").shouldBeFalse()
+    }
+
+    "Check if a answer for a multiple choice question is correct" {
+        val question1 = MultipleChoiceQuestion(
+            text = "Which city in Brazil is known as the Marvelous City?",
+            answers = listOf(
+                ChoiceAnswer("São Paulo", false),
+                ChoiceAnswer("Curitiba", false),
+                ChoiceAnswer("Rio de Janeiro", true),
+                ChoiceAnswer("Santos", false),
+                ChoiceAnswer("Guarulhos", false)
+            )
+        )
+
+        question1.isCorrectAnswer("3").shouldBeTrue()
+        question1.isCorrectAnswer("3 ").shouldBeTrue()
+        question1.isCorrectAnswer(" 3 ").shouldBeTrue()
+
+        question1.isCorrectAnswer("1").shouldBeFalse()
+        question1.isCorrectAnswer("2").shouldBeFalse()
+        question1.isCorrectAnswer("4").shouldBeFalse()
+        question1.isCorrectAnswer("5").shouldBeFalse()
+        question1.isCorrectAnswer("6").shouldBeFalse()
+        question1.isCorrectAnswer("X").shouldBeFalse()
+
+    }
+
 })
