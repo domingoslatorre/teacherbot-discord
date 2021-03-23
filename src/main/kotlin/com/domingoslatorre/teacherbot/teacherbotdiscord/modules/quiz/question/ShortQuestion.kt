@@ -5,7 +5,7 @@ import java.util.UUID
 class ShortQuestion(
     override val id: UUID = UUID.randomUUID(),
     override val text: String,
-    override val answers: List<Answer>,
+    override val answers: List<ShortAnswer>,
     override val successFeedback: String? = null,
     override val failureFeedback: String? = null,
 ) : Question {
