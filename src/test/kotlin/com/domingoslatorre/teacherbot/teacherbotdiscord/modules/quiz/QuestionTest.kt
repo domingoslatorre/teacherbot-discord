@@ -128,4 +128,25 @@ class QuestionTest : StringSpec({
         question1.isCorrectAnswer("0").shouldBeFalse()
 
     }
+
+    "Check if a answer for a negation true or false question is correct" {
+        val question1 = TrueFalseQuestion(
+            text = "One plus one is not equals to two",
+            answers = listOf(
+                TrueFalseAnswer(false, "Correct!", true),
+                TrueFalseAnswer(true, "False!", false)
+            )
+        )
+
+        question1.isCorrectAnswer("v").shouldBeFalse()
+        question1.isCorrectAnswer("Verdadeiro").shouldBeFalse()
+        question1.isCorrectAnswer("1").shouldBeFalse()
+        question1.isCorrectAnswer("TRUE").shouldBeFalse()
+
+        question1.isCorrectAnswer("F").shouldBeTrue()
+        question1.isCorrectAnswer("False").shouldBeTrue()
+        question1.isCorrectAnswer("falso").shouldBeTrue()
+        question1.isCorrectAnswer("0").shouldBeTrue()
+
+    }
 })
