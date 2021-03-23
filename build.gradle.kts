@@ -23,6 +23,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict", "-Xallow-result-return-type")
         jvmTarget = "11"
+        languageVersion = "1.5"
     }
 }
 
