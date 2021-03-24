@@ -14,6 +14,8 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation("net.dv8tion:JDA:4.2.0_241")
     implementation("org.slf4j:slf4j-simple:1.7.30")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:2.2.11")
+    testImplementation("io.mockk:mockk:1.10.6")
     testImplementation("io.kotest:kotest-runner-junit5-jvm:4.4.3")
     testImplementation("io.kotest:kotest-assertions-core-jvm:4.4.3")
     testImplementation("io.kotest:kotest-property-jvm:4.4.3")
