@@ -1,10 +1,11 @@
 package com.domingoslatorre.teacherbot.teacherbotdiscord.core.command
 
-import com.domingoslatorre.teacherbot.teacherbotdiscord.listeners.messageRaw
 import net.dv8tion.jda.api.entities.ChannelType
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 
-class CommandHandler {
+class CommandHandler(
+    private val commandPrefix: String = "!"
+)  {
     var commands: MutableSet<Command> = mutableSetOf()
 
     fun register(command: Command): Result<Command> =
@@ -21,26 +22,34 @@ class CommandHandler {
             else -> Result.success(command)
         }
 
+    private fun parseMessage(event: MessageReceivedEvent): Pair<String, List<String>> =
+        event.message.contentRaw.trim().split(" ").let { it[0] to it.drop(1) }
+
     fun findAndExecute(event: MessageReceivedEvent): Boolean {
         // Check if is a bot
         if(event.author.isBot) return false
 
         // Get command and args from messageRaw
-        val commandAndArgs = event.messageRaw().split(" ")
-        val command = commandAndArgs[0]
-        val args = commandAndArgs.drop(1)
+        val (trigger, args) = parseMessage(event)
 
-        find(command).fold(
-            {
+        // Check command prefix
+        if(!trigger.startsWith(commandPrefix)) return false
+
+        val triggerWithouPrefix = trigger.drop(1)
+        find(triggerWithouPrefix).fold(
+            { command ->
                 // Check scopes of messages
-                if(it.scope == CommandScope.PRIVATE && !event.isFromType(ChannelType.PRIVATE)) return false
-                if(it.scope == CommandScope.CHANNEL && event.isFromType(ChannelType.PRIVATE)) return false
+                if(command.isPrivateScope() && !event.isFromType(ChannelType.PRIVATE)) return false
+                if(command.isChannelScope() && event.isFromType(ChannelType.PRIVATE)) return false
+
+                // Check permission
+                if(command.permission == CommandPermission.OWNER && !event.member!!.isOwner) return false
 
                 // Create a commandEvent object from event properties
-                val commandEvent = CommandEvent(event, event.channel, event.author, event.message, args)
+                val commandEvent = CommandContext(event, event.channel, event.author, event.message, args)
 
                 // Execute a command passing the command event
-                return it.execute(commandEvent)
+                return command.execute(commandEvent)
             },
             { return false }
         )

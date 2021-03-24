@@ -21,7 +21,7 @@ class TestCommand1 : Command {
     override val scope: CommandScope = CommandScope.BOTH
     override val usage: List<String> = listOf()
 
-    override fun execute(event: CommandEvent) = true
+    override fun execute(context: CommandContext) = true
 }
 
 class TestCommand1Clone : Command {
@@ -31,7 +31,7 @@ class TestCommand1Clone : Command {
     override val scope: CommandScope = CommandScope.BOTH
     override val usage: List<String> = listOf()
 
-    override fun execute(event: CommandEvent) = true
+    override fun execute(context: CommandContext) = true
 }
 
 class TestCommand2 : Command {
@@ -41,7 +41,7 @@ class TestCommand2 : Command {
     override val scope: CommandScope = CommandScope.BOTH
     override val usage: List<String> = listOf()
 
-    override fun execute(event: CommandEvent) = true
+    override fun execute(context: CommandContext) = true
 }
 
 class ChannelCommand : Command {
@@ -51,7 +51,7 @@ class ChannelCommand : Command {
     override val scope: CommandScope = CommandScope.CHANNEL
     override val usage: List<String> = listOf()
 
-    override fun execute(event: CommandEvent) = true
+    override fun execute(context: CommandContext) = true
 }
 
 class PrivateCommand : Command {
@@ -61,7 +61,7 @@ class PrivateCommand : Command {
     override val scope: CommandScope = CommandScope.PRIVATE
     override val usage: List<String> = listOf()
 
-    override fun execute(event: CommandEvent) = true
+    override fun execute(context: CommandContext) = true
 }
 
 class CommandHandlerTest : StringSpec({
