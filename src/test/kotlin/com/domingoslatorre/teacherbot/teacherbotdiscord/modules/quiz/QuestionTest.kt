@@ -10,41 +10,36 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 
 class QuestionTest : StringSpec({
     "Create a short question" {
         val question1 = ShortQuestion(
             text = "One plus one equals to ____",
-            answers = listOf(
-                ShortAnswer(setOf("dois", "2", "two"), "Correct!", true)
-            )
+            answers = ShortAnswer(setOf("dois", "2", "two"), "Correct!", true)
         )
         question1.text shouldBe "One plus one equals to ____"
-        question1.answers shouldHaveSize 1
+        question1.answers.shouldNotBeNull()
     }
 
     "Check if a answer for a simple question is valid" {
         val question1 = ShortQuestion(
             text = "One plus one equals to ____",
-            answers = listOf(
-                ShortAnswer(setOf("dois", "2", "two"), "Correct!", true)
-            )
+            answers = ShortAnswer(setOf("dois", "2", "two"), "Correct!", true)
         )
-        question1.validAnswer("two").shouldBeTrue()
-        question1.validAnswer("two two").shouldBeTrue()
-        question1.validAnswer("2").shouldBeTrue()
-        question1.validAnswer("1").shouldBeTrue()
-        question1.validAnswer("").shouldBeFalse()
-        question1.validAnswer("   ").shouldBeFalse()
+        question1.isValidAnswer("two").shouldBeTrue()
+        question1.isValidAnswer("two two").shouldBeTrue()
+        question1.isValidAnswer("2").shouldBeTrue()
+        question1.isValidAnswer("1").shouldBeTrue()
+        question1.isValidAnswer("").shouldBeFalse()
+        question1.isValidAnswer("   ").shouldBeFalse()
     }
 
     "Check if a answer for a simple question is correct" {
         val question1 = ShortQuestion(
             text = "One plus one equals to ____",
-            answers = listOf(
-                ShortAnswer(setOf("dois", "2", "two"), "Correct!", true)
-            )
+            answers = ShortAnswer(setOf("dois", "2", "two"), "Correct!", true)
         )
         question1.isCorrectAnswer("dois").shouldBeTrue()
         question1.isCorrectAnswer("dois ").shouldBeTrue()
@@ -78,36 +73,36 @@ class QuestionTest : StringSpec({
                 TrueFalseAnswer(false, "False!", false)
             )
         )
-        question1.validAnswer("verdadeiro").shouldBeTrue()
-        question1.validAnswer("Verdadeiro").shouldBeTrue()
-        question1.validAnswer("VERDADEIRO").shouldBeTrue()
-        question1.validAnswer("v").shouldBeTrue()
-        question1.validAnswer("V").shouldBeTrue()
-        question1.validAnswer("true").shouldBeTrue()
-        question1.validAnswer("TRUE").shouldBeTrue()
-        question1.validAnswer("t").shouldBeTrue()
-        question1.validAnswer("T").shouldBeTrue()
-        question1.validAnswer("1").shouldBeTrue()
-        question1.validAnswer(" verdadeiro").shouldBeTrue()
-        question1.validAnswer("Verdadeiro  ").shouldBeTrue()
-        question1.validAnswer(" 1 ").shouldBeTrue()
+        question1.isValidAnswer("verdadeiro").shouldBeTrue()
+        question1.isValidAnswer("Verdadeiro").shouldBeTrue()
+        question1.isValidAnswer("VERDADEIRO").shouldBeTrue()
+        question1.isValidAnswer("v").shouldBeTrue()
+        question1.isValidAnswer("V").shouldBeTrue()
+        question1.isValidAnswer("true").shouldBeTrue()
+        question1.isValidAnswer("TRUE").shouldBeTrue()
+        question1.isValidAnswer("t").shouldBeTrue()
+        question1.isValidAnswer("T").shouldBeTrue()
+        question1.isValidAnswer("1").shouldBeTrue()
+        question1.isValidAnswer(" verdadeiro").shouldBeTrue()
+        question1.isValidAnswer("Verdadeiro  ").shouldBeTrue()
+        question1.isValidAnswer(" 1 ").shouldBeTrue()
 
-        question1.validAnswer("falso").shouldBeTrue()
-        question1.validAnswer("Falso").shouldBeTrue()
-        question1.validAnswer("FALSO").shouldBeTrue()
-        question1.validAnswer("f").shouldBeTrue()
-        question1.validAnswer("F").shouldBeTrue()
-        question1.validAnswer("false").shouldBeTrue()
-        question1.validAnswer("FaLSE").shouldBeTrue()
-        question1.validAnswer("0").shouldBeTrue()
-        question1.validAnswer(" verdadeiro").shouldBeTrue()
-        question1.validAnswer("Verdadeiro  ").shouldBeTrue()
-        question1.validAnswer(" 0 ").shouldBeTrue()
+        question1.isValidAnswer("falso").shouldBeTrue()
+        question1.isValidAnswer("Falso").shouldBeTrue()
+        question1.isValidAnswer("FALSO").shouldBeTrue()
+        question1.isValidAnswer("f").shouldBeTrue()
+        question1.isValidAnswer("F").shouldBeTrue()
+        question1.isValidAnswer("false").shouldBeTrue()
+        question1.isValidAnswer("FaLSE").shouldBeTrue()
+        question1.isValidAnswer("0").shouldBeTrue()
+        question1.isValidAnswer(" verdadeiro").shouldBeTrue()
+        question1.isValidAnswer("Verdadeiro  ").shouldBeTrue()
+        question1.isValidAnswer(" 0 ").shouldBeTrue()
 
-        question1.validAnswer("X").shouldBeFalse()
-        question1.validAnswer("FALLLSO").shouldBeFalse()
-        question1.validAnswer("").shouldBeFalse()
-        question1.validAnswer("   ").shouldBeFalse()
+        question1.isValidAnswer("X").shouldBeFalse()
+        question1.isValidAnswer("FALLLSO").shouldBeFalse()
+        question1.isValidAnswer("").shouldBeFalse()
+        question1.isValidAnswer("   ").shouldBeFalse()
     }
 
     "Check if a answer for a true or false question is correct" {
@@ -179,21 +174,21 @@ class QuestionTest : StringSpec({
             )
         )
 
-        question1.validAnswer("1").shouldBeTrue()
-        question1.validAnswer("2").shouldBeTrue()
-        question1.validAnswer("3").shouldBeTrue()
-        question1.validAnswer("4").shouldBeTrue()
-        question1.validAnswer("5").shouldBeTrue()
-        question1.validAnswer(" 3").shouldBeTrue()
-        question1.validAnswer("3 ").shouldBeTrue()
-        question1.validAnswer(" 3 ").shouldBeTrue()
+        question1.isValidAnswer("1").shouldBeTrue()
+        question1.isValidAnswer("2").shouldBeTrue()
+        question1.isValidAnswer("3").shouldBeTrue()
+        question1.isValidAnswer("4").shouldBeTrue()
+        question1.isValidAnswer("5").shouldBeTrue()
+        question1.isValidAnswer(" 3").shouldBeTrue()
+        question1.isValidAnswer("3 ").shouldBeTrue()
+        question1.isValidAnswer(" 3 ").shouldBeTrue()
 
-        question1.validAnswer("6").shouldBeFalse()
-        question1.validAnswer("6 ").shouldBeFalse()
-        question1.validAnswer("20").shouldBeFalse()
-        question1.validAnswer("0").shouldBeFalse()
-        question1.validAnswer("-1").shouldBeFalse()
-        question1.validAnswer("-100").shouldBeFalse()
+        question1.isValidAnswer("6").shouldBeFalse()
+        question1.isValidAnswer("6 ").shouldBeFalse()
+        question1.isValidAnswer("20").shouldBeFalse()
+        question1.isValidAnswer("0").shouldBeFalse()
+        question1.isValidAnswer("-1").shouldBeFalse()
+        question1.isValidAnswer("-100").shouldBeFalse()
     }
 
     "Check if a answer for a multiple choice question is correct" {
