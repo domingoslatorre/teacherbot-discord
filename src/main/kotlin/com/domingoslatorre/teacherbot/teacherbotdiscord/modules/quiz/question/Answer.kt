@@ -4,5 +4,4 @@ sealed interface Answer {
     val value: Any
     val correct: Boolean
     val feedback: String?
-    fun isCorrectAnswer(answer: String): Boolean
 }

@@ -10,14 +10,14 @@ class MultipleChoiceQuestion(
     override val failureFeedback: String? = null,
 ) : Question {
     override val validationErrorFeedback = "The answer must be the choice number"
-    override fun validAnswer(answer: String) =
+    override fun isValidAnswer(answer: String) =
         answer.trim().toIntOrNull().let {
             if (it == null) false
             else (it - 1 >= 0)  && (it <= answers.size)
         }
 
     override fun isCorrectAnswer(answer: String) =
-        if(validAnswer(answer)) answers.indexOfFirst { it.correct } == (answer.trim().toInt() - 1)
+        if(isValidAnswer(answer)) answers.indexOfFirst { it.correct } == (answer.trim().toInt() - 1)
         else false
 }
 
@@ -25,6 +25,4 @@ class ChoiceAnswer(
     override val value: String,
     override val correct: Boolean,
     override val feedback: String? = null,
-) : Answer {
-    override fun isCorrectAnswer(answer: String) = correct
-}
+) : Answer
